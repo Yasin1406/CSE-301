@@ -1,10 +1,6 @@
-6 8
-A B C D E F
-A B 10
-A C 15
-B F 15
-B D 12
-D F 1
-D E 2
-F E 5
-C E 10
+5
+Dhaka Chittagong 5
+Chittagong Rajshahi 7
+Chittagong Cumilla 6
+Dhaka Rajshahi 8
+Dhaka Cumilla 15

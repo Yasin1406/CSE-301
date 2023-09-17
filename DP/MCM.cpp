@@ -6,7 +6,7 @@ int lookup_chain(int i,int j);
 void print_optimal(int i,int j);
 void iterative();
 int main(){
-    freopen("input.txt","r",stdin);
+ //   freopen("input.txt","r",stdin);
     int i,j,k;
   //  cout<<"Enter number of matrices: ";
     cin>>n;
@@ -17,16 +17,16 @@ int main(){
     for(i=0;i<=n;i++){
         cin>>p[i];
     }
-    // for(i=1;i<=n;i++){
-    //     for(j=i;j<=n;j++){
-    //         m[i][j]=__INT16_MAX__;
-    //     }
-    // }
-    // for(i=0;i<=n;i++){
-    //     cout<<p[i]<<" ";
-    // }
-    // int x=lookup_chain(1,n);
-    // cout<<"Min: "<<x<<endl;
+    for(i=1;i<=n;i++){
+        for(j=i;j<=n;j++){
+            m[i][j]=__INT16_MAX__;
+        }
+    }
+    for(i=0;i<=n;i++){
+        cout<<p[i]<<" ";
+    }
+    int x=lookup_chain(1,n);
+    cout<<"Min: "<<x<<endl;
     iterative();
     cout<<"Min: "<<m[1][n]<<endl;
     print_optimal(1,n);

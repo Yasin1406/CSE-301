@@ -8,10 +8,10 @@ void dijkstra(string source);
 void print_graph();
 void print_distance();
 
-typedef struct node{
-    string dest;
-    int weight;
-};
+// typedef struct node{
+//     string dest;
+//     int weight;
+// };
 int w[100][100],vertex_num,edge_num,dis[100],pre[100];
 map<string,int> vertices;
 int main(){
