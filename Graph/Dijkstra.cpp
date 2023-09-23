@@ -1,89 +1,83 @@
 #include<bits/stdc++.h>
 using namespace std;
-
-void read_input();
+vector<pair<int,int>> graph[100];
+vector<string> vertices;
+vector<bool> is_visited(100);
+vector<int> dis(100);
+vector<int> parent(100);
+set<pair<int,int>> p_q;
+int edge;
 void initialize(string source);
-void relaxation(int u,int v);
+int indexof(string name);
+void relax(int u,int v,int w);
 void dijkstra(string source);
-void print_graph();
-void print_distance();
-
-// typedef struct node{
-//     string dest;
-//     int weight;
-// };
-int w[100][100],vertex_num,edge_num,dis[100],pre[100];
-map<string,int> vertices;
+void read_input();
+void print_path(int index);
 int main(){
     freopen("input.txt","r",stdin);
     read_input();
-    print_graph();
     dijkstra("Dhaka");
-    print_distance();
+    for(int i=0;i<vertices.size();i++){
+        cout<<"Dhaka -> "<<vertices[i]<<": "<<dis[i]<<endl;
+    }
+    print_path(3);
+    cout<<endl;
     return 0;
-}
 
-void read_input(){
-    cin>>vertex_num>>edge_num;
-    string s,u,v;
-    for(int i=0;i<vertex_num;i++){
-        cin>>s;
-        vertices[s]=i;
-    }
-    for(int i=0;i<edge_num;i++){
-        cin>>u>>v;
-        cin>>w[vertices[u]][vertices[v]];
-    }
 }
-
 void initialize(string source){
-    for(int i=0;i<vertex_num;i++){
+    for(int i=0;i<vertices.size();i++){
         dis[i]=INT_MAX;
-        pre[i]=-1;
+        parent[i]=-1;
     }
-    dis[vertices[source]]=0;
-
+    dis[indexof(source)]=0;
 }
-
-void relaxation(int u,int v){
-    if(dis[v]>dis[u]+w[u][v]){
-        dis[v]=dis[u]+w[u][v];
-        pre[v]=u;
-    }
-}
-
-// void dijkstra(string source){
-//     initialize(source);
-//     priority_queue<pair<int, string>, vector<pair<int, string>>, greater<pair<int,string>>>q;
-//     for(auto x:vertices){
-//         q.push({w[vertices[source]][x.second], x.first});
-//     }
-//     while(!q.empty()){
-//         int u=vertices[q.top().second];
-//         q.pop();
-//         for(int v=0;v<vertex_num;v++){
-//             if(w[u][v]>0){
-//                 relaxation(u,v);
-//             }
-//         }
-//     }
-// }
-
-void dijkstra(string source){
-
-}
-
-void print_graph(){
-    for(int i=0;i<vertex_num;i++){
-        for(int j=0;j<vertex_num;j++){
-            cout<<w[i][j]<<"\t";
+int indexof(string name){
+    for(int i=0;i<vertices.size();i++){
+        if(name==vertices[i]){
+            return i;
         }
-        cout<<endl;
+    }
+    return -1;
+}
+void relax(int u,int v,int w){
+    if(dis[v]>(dis[u]+w)){
+        dis[v]=dis[u]+w;
+        parent[v]=u;
+        p_q.insert({dis[v],v});
     }
 }
-
-void print_distance(){
-    for(int i=0;i<vertex_num;i++){
-        cout<<dis[i]<<endl;
+void dijkstra(string source){
+    initialize(source);
+    int in_source=indexof(source);
+    p_q.insert({0,in_source});
+    while(!p_q.empty()){
+        auto u=(*p_q.begin()).second;
+        p_q.erase(p_q.begin());
+        for(auto c:graph[u]){
+            relax(u,c.first,c.second);
+        }
     }
+}
+void read_input(){
+    cin>>edge;
+    string s1,s2;
+    int w;
+    for(int i=0;i<edge;i++){
+        cin>>s1>>s2>>w;
+        if(find(vertices.begin(),vertices.end(),s1)==vertices.end()){
+            vertices.push_back(s1);
+        }
+        if(find(vertices.begin(),vertices.end(),s2)==vertices.end()){
+            vertices.push_back(s2);
+        }
+        graph[indexof(s1)].push_back({indexof(s2),w});
+    }
+}
+void print_path(int index){
+    if(index<0){
+        return;
+    }
+    print_path(parent[index]);
+    cout<<vertices[index]<<" ";
 }
