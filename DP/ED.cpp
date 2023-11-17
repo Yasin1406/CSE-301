@@ -59,14 +59,14 @@ void edit_distance(string first,string second,int inF,int inS){
         }
         else{
             mat[inF+1][i+1]=1+min(mat[inF+1][i],min(mat[inF][i+1],mat[inF][i]));
-            if(mat[inF+1][i+1]-1==mat[inF][i]){
-                sign[inF+1][i+1]=3;
-            }
-            else if(mat[inF+1][i+1]-1==mat[inF+1][i]){
+            if(mat[inF+1][i+1]-1==mat[inF+1][i]){
                 sign[inF+1][i+1]=1;
             }
-            else{
+            else if(mat[inF-1][i]==mat[inF+1][i+1]){
                 sign[inF+1][i+1]=2;
+            }
+            else if(mat[inF+1][i+1]-1==mat[inF][i]){
+                sign[inF+1][i+1]=3;
             }
         }
     }

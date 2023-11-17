@@ -19,7 +19,7 @@ int main(){
 void read_input(){
     freopen("rod_cut_input.txt","r",stdin);
     cin>>rod_size>>n;
-    price.resize(rod_size+1);
+    price.resize(max(n+1,rod_size+1));
     price[0]=0;
     int v;
     for(int i=1;i<=n;i++){
@@ -46,6 +46,9 @@ void cut_rod(){
         revenue[j]=q;
     }
     max_revenue=revenue[rod_size];
+    if(cost>0){
+        max_revenue+=cost;
+    }
 }
 
 void print_solution(){
