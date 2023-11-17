@@ -1,88 +1,70 @@
 #include<bits/stdc++.h>
 using namespace std;
+#define mx 100
 
-vector<pair<int,pair<string,string>>> edges;
-vector<string> vertices;
-int edge_num,vertex_num;
-map<string,int> vertex_index;
-vector<int> key,pi,Q;
-string root;
-int graph[100][100];
+vector<vector<int>> graph;
+int pre[mx];
+int keys[mx];
+int visited[mx];
 
-void read_input();
-void prims();
-int get_min_of_Q();
-void print_mst();
-
-int main(){
-    freopen("kruskal.txt","r",stdin);
-    read_input();
-    prims();
-    print_mst();
-    return 0;
-}
-
-void read_input(){
-    cin>>vertex_num>>edge_num;
-    string from,to;
-    int i,j,weight;
-    j=0;
-    for(i=0;i<edge_num;i++){
-        cin>>from>>to;
-        if(find(vertices.begin(),vertices.end(),from)!=vertices.end()){
-            vertices.push_back(from);
-            vertex_index[from]=j++;
-        }
-        if(find(vertices.begin(),vertices.end(),to)!=vertices.end()){
-            vertices.push_back(to);
-            vertex_index[to]=j++;
-        }
-        cin>>weight;
-        graph[vertex_index[from]][vertex_index[to]]=weight;
-        edges.push_back({weight,{from,to}});
+void prim(int V, int s)
+{
+    for(int i=0; i<V; i++)
+    {
+        keys[i] = INT_MAX;
+        pre[i] = -1;
+        visited[i]=0;
     }
-    cin>>root;
-}
-
-void prims(){
-    int i,j,k,u,v;
-    key.resize(vertex_num);
-    pi.resize(vertex_num);
-    for(i=0;i<vertex_num;i++){
-        key[i]=INT_MAX;
-        pi[i]=-1;
-        Q[i]=key[i];
-    }
-    key[vertex_index[root]]=0;
-    Q[vertex_index[root]]=0;
-    while(!Q.empty()){
-        u=get_min_of_Q();
-        Q.erase(Q.begin()+u);
-        for(v=0;v<vertex_num;v++){
-            if(graph[u][v]>0&&graph[u][v]<key[v]){
-                pi[v]=u;
-                key[v]=graph[u][v];
+    keys[s] = 0;
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> Q;
+    for (int i = 0; i < V; i++)
+        Q.push({keys[i],i});
+    while (!Q.empty())
+    {
+        int u = Q.top().second;
+        Q.pop();
+        for (int i = 0; i < V; i++)
+        {
+            if (graph[u][i] && graph[u][i]<keys[i] && !visited[i])
+            {
+                keys[i] = graph[u][i];
+                pre[i] = u;
             }
         }
+        visited[u]=1;
     }
 }
 
-int get_min_of_Q(){
-    int distance=INT_MAX,i,index=-1;
-    for(i=0;i<Q.size();i++){
-        if(Q[i]<distance){
-            distance=Q[i];
-            index=i;
-        }
+void printG(int v)
+{
+    for(int i=0; i<v; i++)
+    {
+        for(int j=0; j<v; j++)
+        cout<<graph[i][j]<<" ";
+        cout<<endl;
     }
-    return index;
 }
 
-void print_mst(){
-    int i,j;
-    for(i=0;i<vertex_num;i++){
-        if(pi[i]>0){
-            cout<<vertices[pi[i]]<<" -> "<<vertices[i]<<" : "<<key[i]<<endl;
-        }
+
+int main()
+{
+    freopen("prim.txt", "r", stdin);
+    int v, e, w;
+    char x, y;
+    cin >> v >> e;
+    graph.assign(v, vector<int>(v, 0));
+    for (int i = 0; i < e; i++)
+    {
+        cin >> x >> y >> w;
+        graph[x - 'a'][y - 'a'] = w;
+        graph[y-'a'][x-'a']=w;
     }
+    prim(v, 0);
+    for(int x : keys)
+    cout<<x<<" ";
+    cout<<endl;
+    for(int x : pre)
+    cout<<x<<" ";
+    
+    return 0;
 }

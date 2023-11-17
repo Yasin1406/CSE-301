@@ -6,7 +6,7 @@ int lookup_chain(int i,int j);
 void print_optimal(int i,int j);
 void iterative();
 int main(){
- //   freopen("input.txt","r",stdin);
+   freopen("input.txt","r",stdin);
     int i,j,k;
   //  cout<<"Enter number of matrices: ";
     cin>>n;

@@ -8,4 +8,4 @@ Tangail Gazipur 4
 Narayanganj Dhaka 2
 Narayanganj Tangail -5
 Cumilla Narayanganj 6
-Narayanganj Cumilla
+Dhaka Tangail

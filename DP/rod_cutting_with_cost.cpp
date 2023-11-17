@@ -26,7 +26,7 @@ void read_input(){
         cin>>price[i];
     }
     cin>>cost;
-    cout<<"Cost: "<<cost<<endl;
+    // cout<<"Cost: "<<cost<<endl;
 }
 
 void cut_rod(){
